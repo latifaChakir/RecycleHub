@@ -88,6 +88,13 @@ export const collectionRequestsFeature = createFeature({
       ...state,
       error
     })),
+    on(CollectionRequestActions.updateCollection, (state, { id, points, voucher }) => ({
+      ...state,
+      collectionRequests: state.collectionRequests.map(request =>
+        request.id === id ? { ...request, points: points ?? 0, voucher: voucher ?? 0 } : request
+      )
+    }))
+
   )
 });
 

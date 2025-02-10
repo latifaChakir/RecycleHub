@@ -21,10 +21,10 @@ import { map } from 'rxjs/operators';
     ReactiveFormsModule
   ],
   templateUrl: './points-system.component.html',
-  styleUrl: './points-system.component.css'
+  styleUrls: ['./points-system.component.css']
 })
 export class PointsSystemComponent implements OnInit {
-  collectionRequests$: Observable<(CollectionRequest & { points: number, voucher: number })[]>;
+  collectionRequests$: Observable<(CollectionRequest & { points: number, voucher: number, remainingPoints: number })[]>;
 
   constructor(private store: Store) {
     this.collectionRequests$ = this.store.select(selectCollectionRequests).pipe(
@@ -32,10 +32,13 @@ export class PointsSystemComponent implements OnInit {
         .filter(request => request.status === 'OCCUPIED' || request.status === 'VALIDATED')
         .map(request => {
           const points = this.calculatePoints(request.items || []);
+          const { voucher, pointsNeeded } = this.calculateVoucher(points);
+          const remainingPoints = points - pointsNeeded;
           return {
             ...request,
             points,
-            voucher: this.calculateVoucher(points)
+            voucher,
+            remainingPoints
           };
         })
       )
@@ -59,15 +62,23 @@ export class PointsSystemComponent implements OnInit {
     }, 0);
   }
 
-  private calculateVoucher(points: number): number {
+  private calculateVoucher(points: number): { voucher: number, pointsNeeded: number } {
+    let pointsNeeded = 0;
+    let voucher = 0;
+
     if (points >= 500) {
-      return 350;
+      voucher = 350;
+      pointsNeeded = 500;
     } else if (points >= 200) {
-      return 120;
+      voucher = 120;
+      pointsNeeded = 200;
     } else if (points >= 100) {
-      return 50;
+      voucher = 50;
+      pointsNeeded = 100;
     } else {
-      return 0;
+      pointsNeeded = 0;
     }
+
+    return { voucher, pointsNeeded };
   }
 }

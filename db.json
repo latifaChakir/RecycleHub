@@ -95,7 +95,7 @@
       "estimatedWeight": 99,
       "address": "Necessitatibus minus",
       "city": "Velit ad tenetur al",
-      "collectionDate": "1995-12-18",
+      "collectionDate": "2024-12-18",
       "timeSlot": "Velit harum reprehen",
       "status": "VALIDATED",
       "additionalNotes": "Quidem enim delectus",
@@ -108,7 +108,9 @@
           "wasteType": "PAPER",
           "weight": 74
         }
-      ]
+      ],
+      "points": 78,
+      "voucher": 50
     },
     {
       "id": "6b8e",

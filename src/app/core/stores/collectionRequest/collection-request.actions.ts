@@ -23,5 +23,6 @@ export const CollectionRequestActions = createActionGroup({
     'Update CollectionRequest': props<{ collectionRequest: CollectionRequest }>(),
     'Update CollectionRequest Success': props<{ collectionRequest: CollectionRequest }>(),
     'Update CollectionRequest Failure': props<{ error: string }>(),
+    'Update Collection': props<{ id: number; points: number; voucher: number }>()
   }
 });
